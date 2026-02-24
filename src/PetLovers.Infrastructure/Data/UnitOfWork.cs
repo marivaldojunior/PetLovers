@@ -9,6 +9,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly PetLoversDbContext _context;
     private IDbContextTransaction? _transaction;
     private IPetRepository? _petRepository;
+    private IUserRepository? _userRepository;
     private bool _disposed;
 
     public UnitOfWork(PetLoversDbContext context)
@@ -17,6 +18,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IPetRepository Pets => _petRepository ??= new PetRepository(_context);
+    public IUserRepository Users => _userRepository ??= new UserRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

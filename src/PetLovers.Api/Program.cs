@@ -5,7 +5,7 @@ using PetLovers.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddApiServices();
+builder.Services.AddApiServices(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

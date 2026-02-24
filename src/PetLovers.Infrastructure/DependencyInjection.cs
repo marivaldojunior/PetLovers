@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetLovers.Domain.Interfaces;
+using PetLovers.Infrastructure.Auth;
 using PetLovers.Infrastructure.Data;
 using PetLovers.Infrastructure.Data.Repositories;
 
@@ -26,7 +27,13 @@ public static class DependencyInjection
             }));
 
         services.AddScoped<IPetRepository, PetRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // Auth services
+        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         return services;
     }
